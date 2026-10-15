@@ -72,7 +72,7 @@ FUNCTIONS = {
 }
 
 
-def main_menu_control():
+def show_main_menu():
     """
     Runs the continuous terminal menu loop for PlayMaze OS.
 
@@ -108,4 +108,4 @@ def main_menu_control():
 
 
 if __name__ == "__main__":
-    main_menu_control()
+    show_main_menu()
