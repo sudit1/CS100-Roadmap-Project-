@@ -1,3 +1,5 @@
+# This file is a template and not main driver for program
+
 GAMES = (
     (1, "Game 1"),
     (2, "Game 2"),
