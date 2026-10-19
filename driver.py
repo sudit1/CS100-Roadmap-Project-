@@ -1,9 +1,18 @@
-import Connect4  # connection to the Connect4 program
+# import Minesweeper  # connect to the Minesweeper program
+# import game2048   # connect to the 2048 game program
+import Connect4  # connect to the Connect4 program
+
 import os  # Used for clearing terminal for readability
+import sys  # Used to terminate program
+
+
+def end_game():
+    """Terminated Program"""
+    sys.exit("\nProgram Terminated, Thanks For Playing\n")
 
 
 def clear_terminal():
-    # supports windoes and mac terminal support
+    """Clears the terminal when called"""
     os.system("cls" if os.name == "nt" else "clear")
 
 
@@ -32,11 +41,11 @@ def show_game_menu():
     """
 
     while True:
-        print("\nGame Engine")
+        print("\n  Game Engine")
 
         for number, game_data in GAMES.items():
             name = game_data["name"]
-            print(f"{number} -> {name}")
+            print(f"    {number}: {name}")
 
         choice = input("Select a game (or press Enter to return): ").strip()
 
@@ -67,7 +76,7 @@ FUNCTIONS = {
         "name": "Answer Questions: Get More Credits",
         "func": lambda: print("\ncredits"),
     },
-    "0": {"name": "Exit", "func": lambda: print("\nProgram terminated")},
+    "0": {"name": "Exit", "func": end_game},
     # "5": {"name": "Game 5",       "func": play_game_5},
 }
 
