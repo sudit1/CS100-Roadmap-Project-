@@ -2,18 +2,16 @@
 # import game2048   # connect to the 2048 game program
 import Connect4  # connect to the Connect4 program
 
-import os  # Used for clearing terminal for readability
+import os  # Used for clearing terminal for readability 
 import sys  # Used to terminate program
 
 def end_game():
     """Terminate Program"""
     sys.exit("\nProgram Terminated, Thanks For Playing\n")
 
-
 def clear_terminal():
     """Clears the terminal when called"""
     os.system("cls" if os.name == "nt" else "clear")
-
 
 def test_menu_template(menu_function, test_input, expected_result):
     """Run a menu test and print PASS in green or FAIL in red."""
@@ -38,7 +36,6 @@ def test_menu_template(menu_function, test_input, expected_result):
     )
 
     return status
-
 
 def admin_run_test():
     # Replace actions temporarily so no games launch during tests
@@ -93,14 +90,16 @@ def admin_run_test():
 # When adding games please follow the function naming convention for clear code
 # "{menu number}": {"name": "{game name}", "func": {gameRef.function}},
 GAMES = {
+    
     "1": {"name": "Connect Four", "func": Connect4.play_game},
-    "0": {"name": "Exit", "func": end_game},
     "2": {"name": "Minesweeper", "func": lambda: print("\nMinesweeper program runs")},
     "3": {"name": "2048", "func": lambda: print("\n2048 program runs")},
+    "c": {"name": "Clear", "func": clear_terminal},
+    "x": {"name": "Exit", "func": end_game},
+    
     # "4": {"name": "Game 4",       "func": play_game_4},
     # "5": {"name": "Game 5",       "func": play_game_5},
 }
-
 
 def show_game_menu(test_input=None):
     """
@@ -151,13 +150,11 @@ def show_game_menu(test_input=None):
             if test_input is not None:
                 return False
 
-
 ADMIN = {
     "1": {"name": "Test Menu Inputs", "func": admin_run_test},
     "0": {"name": "Exit", "func": end_game},
     # "5": {"name": "Game 5",       "func": play_game_5},
 }
-
 
 def show_admin_menu():
     """
@@ -217,10 +214,11 @@ FUNCTIONS = {
         "name": "Admin Controls",
         "func": show_admin_menu,
     },
-    "0": {"name": "Exit", "func": end_game},
+    "c": {"name": "Clear", "func": clear_terminal},
+    "x": {"name": "Exit", "func": end_game},
+    
     # "5": {"name": "Game 5",       "func": play_game_5},
 }
-
 
 def show_main_menu(test_input=None):
     """Display the main menu or test a single input."""
@@ -254,7 +252,6 @@ def show_main_menu(test_input=None):
 
             if test_input is not None:
                 return False
-
 
 if __name__ == "__main__":
     show_main_menu()
