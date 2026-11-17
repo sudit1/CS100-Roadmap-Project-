@@ -2,7 +2,7 @@
 # import game2048   # connect to the 2048 game program
 import Connect4  # connect to the Connect4 program
 
-import os  # Used for clearing terminal for readability
+import os  # Used for clearing terminal for readability 
 import sys  # Used to terminate program
 
 def end_game():
