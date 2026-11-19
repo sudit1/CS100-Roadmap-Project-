@@ -5,20 +5,39 @@ import Connect4  # connect to the Connect4 program
 import os  # Used for clearing terminal for readability 
 import sys  # Used to terminate program
 
+# Color Scheme
+GREEN = "\033[92m"                  # Menu headers and accepted messages
+RED = "\033[91m"                    # Error and invalid messages
+BLUE = "\033[38;2;135;206;235m"     # Input prompts
+ORANGE = "\033[38;2;255;165;0m"     # Input response
+RESET = "\033[0m"                   # Reset to default
+
+
 def end_game():
     """Terminate Program"""
-    sys.exit("\nProgram Terminated, Thanks For Playing\n")
+    print(f"{GREEN}\nProgram Terminated, Thanks For Playing{RESET}")
+    sys.exit()
+
 
 def clear_terminal():
     """Clears the terminal when called"""
     os.system("cls" if os.name == "nt" else "clear")
 
+
+def blue_input(prompt):
+    """Display prompt in blue and typed input in orange."""
+    user_input = input(f"{BLUE}{prompt}{ORANGE}").strip()
+    print(RESET, end="")
+    return user_input
+
+
+def red_print(message):
+    """Display errors and invalid messages in red."""
+    print(f"{RED}{message}{RESET}")
+
+
 def test_menu_template(menu_function, test_input, expected_result):
     """Run a menu test and print PASS in green or FAIL in red."""
-
-    GREEN = "\033[92m"
-    RED = "\033[91m"
-    RESET = "\033[0m"
 
     result = menu_function(test_input)
     status = result == expected_result
@@ -30,19 +49,21 @@ def test_menu_template(menu_function, test_input, expected_result):
 
     print(
         f"{message} | "
-        f"Input: {test_input!r} | "
+        f"Input: {BLUE}{test_input!r}{RESET} | "
         f"Expected: {expected_result} | "
         f"Actual: {result}"
     )
 
     return status
 
+
 def admin_run_test():
     # Replace actions temporarily so no games launch during tests
     FUNCTIONS["1"]["func"] = lambda: None
     FUNCTIONS["2"]["func"] = lambda: None
     FUNCTIONS["3"]["func"] = lambda: None
-    FUNCTIONS["0"]["func"] = lambda: None
+    FUNCTIONS["c"]["func"] = lambda: None
+    FUNCTIONS["x"]["func"] = lambda: None
 
     GAMES["1"]["func"] = lambda: None
     GAMES["2"]["func"] = lambda: None
@@ -98,6 +119,7 @@ GAMES = {
     "x": {"name": "Exit", "func": end_game},
 }
 
+
 def show_game_menu(test_input=None):
     """
     Runs the continuous terminal menu loop for the game selection menu.
@@ -112,7 +134,7 @@ def show_game_menu(test_input=None):
     """
 
     while True:
-        print("\nGame Engine")
+        print(f"{GREEN}\nGame Engine{RESET}")
 
         for number, game_data in GAMES.items():
             print(f"    {number}: {game_data['name']}")
@@ -120,7 +142,7 @@ def show_game_menu(test_input=None):
         if test_input is not None:
             choice = str(test_input).strip()
         else:
-            choice = input("Select a game (or press Enter to return): ").strip()
+            choice = blue_input("Select a game (or press Enter to return): ")
 
         if choice == "":
             if test_input is not None:
@@ -142,16 +164,19 @@ def show_game_menu(test_input=None):
 
             selected_game["func"]()
         else:
-            print("That game is not available yet.")
+            red_print("That game is not available yet.")
 
             if test_input is not None:
                 return False
 
+
 ADMIN = {
     "1": {"name": "Test Menu Inputs", "func": admin_run_test},
-    "0": {"name": "Exit", "func": end_game},
+    "c": {"name": "Exit", "func": clear_terminal},
+    "x": {"name": "Exit", "func": end_game},
     # "5": {"name": "Game 5",       "func": play_game_5},
 }
+
 
 def show_admin_menu():
     """
@@ -159,28 +184,28 @@ def show_admin_menu():
 
     This function displays a command-line menu by dynamically iterating through
     a global dictionary of options and names. It accepts user input, validates it
-    against the available numbers or names, and executes the corresponding function.
+    against the available numbers or names and executes the corresponding function.
 
     Returns -> None: This function runs with password and does not return a value.
     """
 
     adminPass = "admin123"
-    password = input("Enter admin password: ")
+    password = blue_input("Enter admin password: ")
 
     clear_terminal()
 
     if password != adminPass:
-        print("password invalid")
+        red_print("password invalid")
         return
 
     while password == adminPass:
-        print("\nAdmin Menu\n")
+        print(f"{GREEN}\nAdmin Menu\n{RESET}")
 
         for number, option_data in ADMIN.items():
             name = option_data["name"]
             print(f"{number}: {name}")
 
-        choice = input("\nSelect an option (number or name): ").strip()
+        choice = blue_input("\nSelect an option (number or name): ")
 
         selected_option = None
 
@@ -194,7 +219,7 @@ def show_admin_menu():
         if selected_option:
             selected_option["func"]()  # Add () to execute the stored function
         else:
-            print("\n Invalid choice. Please try again.")
+            red_print("\n Invalid choice. Please try again.")
 
 
 # A dictionary containing the name and the function reference for game storage
@@ -217,11 +242,12 @@ FUNCTIONS = {
     # "5": {"name": "Game 5",       "func": play_game_5},
 }
 
+
 def show_main_menu(test_input=None):
     """Display the main menu or test a single input."""
 
     while True:
-        print("\nPlayMaze OS\n")
+        print(f"{GREEN}\nPlayMaze OS\n{RESET}")
 
         for number, option_data in FUNCTIONS.items():
             print(f"{number}: {option_data['name']}")
@@ -229,7 +255,7 @@ def show_main_menu(test_input=None):
         if test_input is not None:
             choice = str(test_input).strip()
         else:
-            choice = input("Select an option: ").strip()
+            choice = blue_input("Select an option: ")
 
         selected_option = None
 
@@ -245,10 +271,11 @@ def show_main_menu(test_input=None):
 
             selected_option["func"]()
         else:
-            print("Invalid choice. Please try again.")
+            red_print("Invalid choice. Please try again.")
 
             if test_input is not None:
                 return False
+
 
 if __name__ == "__main__":
     show_main_menu()
