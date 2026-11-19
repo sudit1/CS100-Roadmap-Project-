@@ -1,5 +1,5 @@
-# import Minesweeper  # connect to the Minesweeper program
-# import game2048   # connect to the 2048 game program
+import minesweeper  # connect to the Minesweeper program
+import game2048   # connect to the 2048 game program
 import Connect4  # connect to the Connect4 program
 
 import os  # Used for clearing terminal for readability 
@@ -92,13 +92,10 @@ def admin_run_test():
 GAMES = {
     
     "1": {"name": "Connect Four", "func": Connect4.play_game},
-    "2": {"name": "Minesweeper", "func": lambda: print("\nMinesweeper program runs")},
-    "3": {"name": "2048", "func": lambda: print("\n2048 program runs")},
+    "2": {"name": "Minesweeper", "func": minesweeper.play_game},
+    "3": {"name": "2048", "func": game2048.play_game},
     "c": {"name": "Clear", "func": clear_terminal},
     "x": {"name": "Exit", "func": end_game},
-    
-    # "4": {"name": "Game 4",       "func": play_game_4},
-    # "5": {"name": "Game 5",       "func": play_game_5},
 }
 
 def show_game_menu(test_input=None):

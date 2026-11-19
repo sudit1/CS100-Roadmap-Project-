@@ -46,8 +46,10 @@ def print_board(board, score=0):
         print(row_str)
         print("-" * 25)
 
-
-if __name__ == "__main__":
+def play_game():
     # Test your board creation and printing!
     board = create_board()
     print_board(board)
+
+if __name__ == "__main__":
+    play_game()
